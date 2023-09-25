@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_socket_io/model/message.dart';
 import 'package:flutter_socket_io/providers/home.dart';
@@ -42,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     //Important: If your server is running on localhost and you are testing your app on Android then replace http://localhost:3000 with http://10.0.2.2:3000
     _socket = IO.io(
-      'http://localhost:3000',
+      Platform.isIOS ? 'http://localhost:3000' : 'http://10.0.2.2:3000',
       IO.OptionBuilder().setTransports(['websocket']).setQuery(
           {'username': widget.username}).build(),
     );
@@ -90,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(message.message),
                               Text(
                                 DateFormat('hh:mm a').format(message.sentAt),
-                                style: Theme.of(context).textTheme.caption,
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
